@@ -41,6 +41,7 @@ class MyContext(commands.Context):
 
 class Bot(commands.Bot):
     _ignored = (commands.CommandNotFound,)
+    _print_exc = True
     headers = {'user-agent': f'DiscordBot; Python/3.8.3 aiohttp/{aiohttp.__version__}'}
     smol_bytes = {'Range': 'bytes=0-10'}
     def __init__(self, command_prefix, **kwargs):
