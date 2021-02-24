@@ -7,7 +7,7 @@ import re
 import discord
 from discord.ext import commands
 
-from containers import DieEval
+from utils.containers import DieEval
 
 class GuildConverter(commands.IDConverter):
     async def convert(self, ctx: commands.Context, arg: str) -> discord.Guild:
@@ -32,7 +32,7 @@ class LinkConverter(commands.Converter):
     jpg_header = b"\xff\xd8\xff"
     short_read = {'Range': 'bytes=0-10'}
 
-    async def convert(self, ctx: commands.Context, arg: str) -> io.BytesIO:
+    async def convert(self, ctx: commands.Context, arg: str) -> BytesIO:
         bot = ctx.bot
         arg = arg.strip('<>')
         async with bot._session.get(arg, headers=short_read) as res:
