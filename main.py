@@ -15,6 +15,7 @@ exts = [
     'cogs.events',
     'cogs.images',
     'cogs.osrs',
+    'cogs.pins',
 ]
 
 class MyContext(commands.Context):
