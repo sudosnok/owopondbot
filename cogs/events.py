@@ -13,6 +13,10 @@ class Events(commands.Cog):
         self.bot = bot
         self._ignored = bot._ignored or {commands.CommandNotFound,}
 
+    async def cog_check(self, ctx):
+        print('aaaa')
+        return True
+
     @lru_cache(maxsize=3)
     def traceback_formatter(self, exc: Exception) -> str:
         tb = traceback.format_exception(type(exc), exc, exc.__traceback__)
@@ -51,8 +55,9 @@ class Events(commands.Cog):
             if ctx.author.id == bot.owner_id:
                 return await ctx.reinvoke()
 
-        exc_info = self.traceback_formatter(exc)
+        #exc_info = self.traceback_formatter(exc)
+        exc_info = traceback.format_exception(type(e), e, e.__traceback__)[0]
         return await ctx.send(exc_info)
-        
+
 def setup(bot):
     bot.add_cog(Events(bot))

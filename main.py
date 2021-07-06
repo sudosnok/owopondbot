@@ -12,32 +12,15 @@ import config
 
 exts = [
     'jishaku',
-    'cogs.events',
-    'cogs.images',
-    'cogs.osrs',
+    #'cogs.events',
+    #'cogs.images',
+    #'cogs.osrs',
     'cogs.pins',
 ]
 
 class MyContext(commands.Context):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-    @property
-    def invoked_parents(self):
-        view = self.view
-        idx, prev = view.index, view.previous
-        view.index = 0+len(self.prefix)
-        view.previous = 0+len(self.prefix)
-        #view.skip_ws()
-        invoked_parents = {}
-        print('we here')
-        for parent in self.command.parents:
-            print('iterating')
-            invoked_parents[parent] = view.get_word()
-            view.skip_ws()
-        self.view.index = idx
-        self.view.previous = prev
-        return invoked_parents
 
 
 class Bot(commands.Bot):
@@ -73,7 +56,8 @@ if __name__ == '__main__':
     allowed_mentions = discord.AllowedMentions(everyone=False, users=True, roles=False)
     intents = discord.Intents.all()
     owner_id = 273035520840564736
-    bot = Bot('.', allowed_mentions=allowed_mentions, intents=intents, owner_id=owner_id)
+    hc = commands.MinimalHelpCommand()
+    bot = Bot('.', allowed_mentions=allowed_mentions, intents=intents, owner_id=owner_id, help_command=hc)
     print('Created bot object')
     bot.run(config.TOKEN)
     print('Bot object was killed')

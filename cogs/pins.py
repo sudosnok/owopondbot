@@ -1,7 +1,7 @@
 # cogs/pins.py
 
 from datetime import datetime
-
+import aiohttp
 import discord
 from discord.ext import commands
 import typing
@@ -20,6 +20,18 @@ class Pins(commands.Cog):
         e.description = msg.content + f"\n[Click to jump]({msg.jump_url} \"Jump to message\")"
         e.set_footer(text=datetime.utcnow().strftime(r"%d %b '%y; %I:%M %p"))
         return e
+
+    @commands.has_role('Pathfinder')
+    @commands.command()
+    async def add_emoji(self, ctx, emoji: typing.Union[discord.Emoji, discord.PartialEmoji, str], *, name: typing.Optional[str]):
+        if isinstance(emoji, str):
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get(emoji) as res:
+                    emojibytes = await res.read()
+        else:
+            emojibytes = await (emoji.url_as()).read()
+        name = name or f'{ctx.author.display_name}\'s-emoji'
+        await ctx.guild.create_custom_emoji(name=name, image=emojibytes)
 
     @commands.command(name='pins')
     @commands.is_owner()
